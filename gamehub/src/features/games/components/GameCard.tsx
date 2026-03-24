@@ -1,4 +1,5 @@
 import { Game } from "../types/game";
+import { useFavorites } from "../hooks/useFavorites";
 
 type Props = {
   game: Game;
@@ -6,16 +7,28 @@ type Props = {
 };
 
 const GameCard = ({ game, onClick }: Props) => {
+    const { isFavorite, toggleFavorite } = useFavorites();
   return (
     <div
-      className="bg-white rounded-2xl shadow-sm hover:shadow-md transition cursor-pointer overflow-hidden"
+      className="relative bg-white rounded-2xl shadow-sm hover:shadow-md transition cursor-pointer overflow-hidden"
       onClick={() => onClick?.(game.id)}
     >
-      <img
-        src={game.thumbnail}
-        alt={game.title}
-        className="w-full h-40 object-cover"
-      />
+      <div className="relative">
+        <img
+          src={game.thumbnail}
+          alt={game.title}
+          className="w-full h-40 object-cover"
+        />
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleFavorite(game.id);
+          }}
+          className="absolute top-2 right-2 bg-white/80 backdrop-blur px-2 py-1 rounded-md text-sm hover:bg-white transition"
+        >
+          {isFavorite(game.id) ? "★" : "☆"}
+        </button>
+      </div>
 
       <div className="p-3 space-y-1">
         <h3 className="font-semibold text-sm">{game.title}</h3>
