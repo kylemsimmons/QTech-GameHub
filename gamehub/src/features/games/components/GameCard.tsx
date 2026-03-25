@@ -1,3 +1,4 @@
+import React from "react";
 import { Game } from "../types/game";
 import { useFavorites } from "../hooks/useFavorites";
 
@@ -48,4 +49,4 @@ const GameCard = ({ game, onClick }: Props) => {
   );
 };
 
-export default GameCard;
+export default React.memo(GameCard);

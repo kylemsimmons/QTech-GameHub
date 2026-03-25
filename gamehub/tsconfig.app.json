@@ -13,6 +13,7 @@
       "@shared/*": ["shared/*"],
       "@/*": ["*"]
     },
+    "types": ["vitest/globals", "@testing-library/jest-dom"],
 
     /* Bundler mode */
     "moduleResolution": "bundler",
