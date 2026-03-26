@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Layout } from "@shared/components/ui/Layout";
 import { useGames } from "../hooks/useGames";
@@ -6,13 +6,20 @@ import { useFavorites } from "../hooks/useFavorites";
 import GameCard from "../components/GameCard";
 import GameCardSkeleton from "../components/GameCardSkeleton";
 
+const PAGE_SIZE = 12;
+
 const CataloguePage = () => {
   const { games, loading, error } = useGames();
   const { isFavorite } = useFavorites();
   const [search, setSearch] = useState("");
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search, showFavoritesOnly, selectedCategory]);
 
   const handleClick = (id: string) => {
     navigate(`/games/${id}`);
@@ -34,6 +41,13 @@ const CataloguePage = () => {
       return matchesSearch && matchesFavorites && matchesCategory;
     });
   }, [games, search, showFavoritesOnly, selectedCategory, isFavorite]);
+
+  const paginatedGames = useMemo(() => {
+    const start = (currentPage - 1) * PAGE_SIZE;
+    return filteredGames.slice(start, start + PAGE_SIZE);
+  }, [filteredGames, currentPage]);
+
+  const totalPages = Math.ceil(filteredGames.length / PAGE_SIZE);
 
   return (
     <Layout>
@@ -90,15 +104,32 @@ const CataloguePage = () => {
             <option value="bonus buy">Bonus Buy</option>
           </select>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-          {filteredGames.map((game) => (
-            <GameCard
-              key={game.id}
-              game={game}
-              onClick={handleClick}
-            />
-          ))}
-        </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {paginatedGames.map(game => (
+          <GameCard
+            key={game.id}
+            game={game}
+            onClick={handleClick}
+          />
+        ))}
+      </div>
+      </div>
+      <div className="flex gap-2 mt-4 justify-center">
+          <button
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage(p => p - 1)}
+          >
+            Previous
+          </button>
+          <span className="flex items-center">
+            {currentPage} of {totalPages}
+          </span>
+          <button
+            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage(p => p + 1)}
+          >
+            Next
+          </button>
       </div>
     </Layout>
   );
