@@ -104,32 +104,36 @@ const CataloguePage = () => {
             <option value="bonus buy">Bonus Buy</option>
           </select>
         </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {paginatedGames.map(game => (
-          <GameCard
-            key={game.id}
-            game={game}
-            onClick={handleClick}
-          />
-        ))}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {paginatedGames.map(game => (
+            <GameCard
+              key={game.id}
+              game={game}
+              onClick={handleClick}
+            />
+          ))}
+        </div>
       </div>
-      </div>
-      <div className="flex gap-2 mt-4 justify-center">
-          <button
-            disabled={currentPage === 1}
-            onClick={() => setCurrentPage(p => p - 1)}
-          >
-            Previous
-          </button>
-          <span className="flex items-center">
-            {currentPage} of {totalPages}
-          </span>
-          <button
-            disabled={currentPage === totalPages}
-            onClick={() => setCurrentPage(p => p + 1)}
-          >
-            Next
-          </button>
+      <div className="flex items-center justify-center gap-4 mt-6 text-sm">
+        <button
+          disabled={currentPage === 1}
+          onClick={() => setCurrentPage((p) => p - 1)}
+          className="px-3 py-1 rounded-md border disabled:opacity-50"
+        >
+          Previous
+        </button>
+
+        <span className="font-medium">
+          {currentPage} of {totalPages}
+        </span>
+
+        <button
+          disabled={currentPage === totalPages}
+          onClick={() => setCurrentPage((p) => p + 1)}
+          className="px-3 py-1 rounded-md border disabled:opacity-50"
+        >
+          Next
+        </button>
       </div>
     </Layout>
   );
