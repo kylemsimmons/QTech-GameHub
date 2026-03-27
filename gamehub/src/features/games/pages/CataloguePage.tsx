@@ -2,7 +2,7 @@ import { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Layout } from "@shared/components/ui/Layout";
 import { useGames } from "../hooks/useGames";
-import { useFavorites } from "../hooks/useFavorites";
+import { useFavorites } from "../context/FavoritesContext";
 import GameCard from "../components/GameCard";
 import GameCardSkeleton from "../components/GameCardSkeleton";
 

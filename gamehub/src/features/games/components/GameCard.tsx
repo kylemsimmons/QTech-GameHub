@@ -1,6 +1,6 @@
 import React from "react";
 import { Game } from "../types/game";
-import { useFavorites } from "../hooks/useFavorites";
+import { useFavorites } from "../context/FavoritesContext";
 
 type Props = {
   game: Game;

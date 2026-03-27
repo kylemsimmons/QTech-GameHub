@@ -3,7 +3,7 @@ import { Layout } from "@shared/components/ui/Layout";
 import { useEffect, useState } from "react";
 import { Game } from "../types/game";
 import { gameService } from "../services/gameService";
-import { useFavorites } from "../hooks/useFavorites";
+import { useFavorites } from "../context/FavoritesContext";
 
 const GameDetailPage = () => {
   const { id } = useParams();
